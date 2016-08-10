@@ -82,10 +82,9 @@ var Message = Backbone.Model.extend({
    *
    * When you were using ajax, if you defined a `success` function,
    * you could depend on that function being called once the data comes back
-   * from the server. In Backbone, if you define a function and
-   * call it `initialize`, Backbone will call that function
-   * everytime you create a new model from the class that the
-   * initialize function is defined on.
+   * from the server. In Backbone, if you define a function IN A CLASS and
+   * call it `initialize`, Backbone will call that 'initialize' function
+   * everytime you instantiate a new model from that class.
    *
    * In this case, anytime you use `new Message`, the object/model created
    * will have this `initialize` function run when the model is created.
@@ -101,7 +100,9 @@ var Message = Backbone.Model.extend({
      * Putting it into the initialize function let's us be sure that
      * all models that are created will have event listeners on them.
      */
-    this.on(YOUR CODE HERE);
+    this.on('change:message', function(e){
+      renderSomethingOnThePage(e.changed.message);
+    });
     /* It is your turn to write the event handler.
      *
      * Make an event listener that will listen for a `change` in this model's
